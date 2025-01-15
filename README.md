@@ -1,6 +1,6 @@
 # Lunii MD File Generator
 
-A Python script to generate authentication `.md` files for Lunii storyteller devices.
+A Python script to generate authentication `.md` files for Lunii (v2 maybe other...) storyteller devices.
 
 ## Description
 
@@ -22,12 +22,14 @@ pip install xxtea
 ```
 3. Adjust SNU, VERSION_MAJOR, VERSION_MINOR with your information (you can retrieve them via UART Debug)
 
-5. Run the script:
+4. Run the script:
 ```bash
 python md_generator.py
 ```
+5. I have a bug actually I have a missing 00 value at address #000000FF so add it before use it.
 
 The script will create a `new.md` file in the current directory. Rename it to `.md` (with the leading dot) and place it at the root of your Lunii's SD card.
+And change it to hidden file.
 
 ## File Structure
 
