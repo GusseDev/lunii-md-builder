@@ -20,8 +20,9 @@ This tool generates the `.md` authentication file required for Lunii storyteller
 ```bash
 pip install xxtea
 ```
+3. Adjust SNU, VERSION_MAJOR, VERSION_MINOR with your information (you can retrieve them via UART Debug)
 
-3. Run the script:
+5. Run the script:
 ```bash
 python md_generator.py
 ```
