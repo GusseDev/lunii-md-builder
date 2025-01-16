@@ -1,5 +1,6 @@
 import struct
 import xxtea
+
 # Generic key identified from firmware
 raw_key_generic = [0x91BD7A0A, 0xA75440A9, 0xBBD49D6C, 0xE0DCC0E3]
 
@@ -15,10 +16,31 @@ def hex_dump(data, start_address=0):
         hex_part = f"{hex_part:<48}"
         print(f"{start_address + i:08x}: {hex_part} | {ascii_part}")
 
-# Lunii device parameters - replace with your own values
-SNU = "XXXXXXXXXXXXXXXX"  # 16 characters serial number
-VERSION_MAJOR = 2
-VERSION_MINOR = 19
+# Default values
+DEFAULT_SNU = "XXXXXXXXXXXXXXXX"  # 16 characters serial number
+DEFAULT_VERSION_MAJOR = 2
+DEFAULT_VERSION_MINOR = 19
+
+# Prompt for serial number
+SNU = input(f"Enter serial number (16 characters, default {DEFAULT_SNU}): ") or DEFAULT_SNU
+
+# Validate SNU length
+if len(SNU) != 16:
+    print("Invalid serial number length. Using default value.")
+    SNU = DEFAULT_SNU
+
+# Prompt for version numbers
+try:
+    VERSION_MAJOR = int(input(f"Enter major version number (default {DEFAULT_VERSION_MAJOR}): ") or DEFAULT_VERSION_MAJOR)
+    VERSION_MINOR = int(input(f"Enter minor version number (default {DEFAULT_VERSION_MINOR}): ") or DEFAULT_VERSION_MINOR)
+except ValueError:
+    print("Invalid version numbers. Using default values.")
+    VERSION_MAJOR = DEFAULT_VERSION_MAJOR
+    VERSION_MINOR = DEFAULT_VERSION_MINOR
+
+print(f"\nUsing SNU: {SNU}")
+print(f"Using version {VERSION_MAJOR}.{VERSION_MINOR}")
+
 
 def create_blocks():
     # First block (unencrypted) - exactly 256 bytes
