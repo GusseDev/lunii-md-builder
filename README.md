@@ -1,6 +1,7 @@
 # Lunii MD File Generator
 
 A Python script to generate authentication `.md` files for Lunii (v2 maybe other...) storyteller devices.
+Allows you to repair the MD_FILE_NOT_FOUND error in certain cases, by rebuilding the .md file from your serial number and the version of your Lunii.
 
 ## Description
 

@@ -17,9 +17,9 @@ def hex_dump(data, start_address=0):
         print(f"{start_address + i:08x}: {hex_part} | {ascii_part}")
 
 # Default values
-DEFAULT_SNU = "XXXXXXXXXXXXXXXX"  # 16 characters serial number
+DEFAULT_SNU = "0000000000000000"  # 16 characters default serial number
 DEFAULT_VERSION_MAJOR = 2
-DEFAULT_VERSION_MINOR = 19
+DEFAULT_VERSION_MINOR = 22
 
 # Prompt for serial number
 SNU = input(f"Enter serial number (16 characters, default {DEFAULT_SNU}): ") or DEFAULT_SNU
@@ -52,8 +52,8 @@ def create_blocks():
     block1[2:6] = bytes([0xff, 0xff, 0xff, 0xff])
     block1[6:8] = bytes([0x02, 0x00])
     block1[8:10] = bytes([VERSION_MINOR, 0x00])
-    block1[10:17] = bytes.fromhex(SNU[:14])
-    block1[17] = 0x00
+    block1[10:17] = bytes.fromhex(SNU[:16])
+#    block1[17] = 0x33
     block1[18:31] = bytes.fromhex("830441A34E5350454349414C")  # Static identifier
     block1[31] = 0x00
 
@@ -61,15 +61,18 @@ def create_blocks():
     if len(block1) != 256:
         block1.extend([0] * (256 - len(block1)))
 
-    # Second block initialization (260 bytes for safe padding)
-    block2 = bytearray([0] * 260)
-    
-    # Block 2 data setup
-    device_id = SNU[8:14]  # Extract device ID from SNU
-    block2[0:6] = bytes.fromhex(device_id)
-    block2[6:8] = bytes.fromhex("0007")
-    block2[8:10] = struct.pack('<H', 0x0026)
-    block2[10:15] = bytes.fromhex("3EF0112233")
+
+
+    # Second bloc (à chiffrer)
+    block2 = bytearray(256)  # Initialise avec des zéros
+
+    # Données pour le bloc
+    device_id = SNU[8:14]  # Prend une partie du SNU comme device ID
+    block2[0:7] = bytes.fromhex(device_id + "0007")  # Device ID suivi de 0007
+    block2[7:9] = struct.pack('<H', 0x0026)  # Static
+    block2[9:14] = bytes.fromhex("3EF0112233")  # Static
+
+
 
     # Final size verification
     assert len(block1) == 256, f"Block1 size is {len(block1)}, expected 256"
