@@ -16,20 +16,30 @@ This tool generates the `.md` authentication file required for Lunii storyteller
 ## Usage
 
 1. Clone this repository
+
 2. Install dependencies:
 ```bash
 pip install xxtea
 ```
-3. Adjust SNU, VERSION_MAJOR, VERSION_MINOR with your information (you can retrieve them via UART Debug)
 
-4. Run the script:
+3. Run the script:
 ```bash
 python md_generator.py
 ```
-5. I have a bug actually I have a missing 00 value at address #000000FF so add it before use it.
 
-The script will create a `new.md` file in the current directory. Rename it to `.md` (with the leading dot) and place it at the root of your Lunii's SD card.
-And change it to hidden file.
+4. When prompted, enter your device information:
+   - Serial Number (16 characters)
+   - Major Version 
+   - Minor Version
+   
+   Note: You can retrieve these values via UART Debug. Press Enter to use default values for version.
+
+5. The script will create a `new.md` file in the current directory. 
+
+6. Process the generated file:
+   - Rename it to `.md` (with the leading dot)
+   - Place it at the root of your Lunii's SD card
+   - Change it to a hidden file
 
 ## File Structure
 
